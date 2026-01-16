@@ -1,35 +1,160 @@
 package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
+import jm.task.core.jdbc.util.Util;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
-public class UserDaoJDBCImpl implements UserDao {
-    public UserDaoJDBCImpl() {
+import static jm.task.core.jdbc.util.Util.*;
 
+
+public class UserDaoJDBCImpl implements UserDao {
+
+    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS users (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(40), lastName VARCHAR(40), age TINYINT UNSIGNED)";
+    private static final String SAVE = "INSERT INTO users (name, lastName, age) VALUES (?,?,?)";
+    private static final String GET_ALL = "SELECT * FROM users";
+    private static final String DROP_TABLE = "DROP TABLE IF EXISTS users";
+    private static final String CLEAR_TABLE = "DELETE FROM users";
+    private static final String REMOVE_USER = "DELETE FROM users WHERE id=?";
+
+
+    Util util = new Util();
+    User user = new User();
+    Connection connection = util.getConnection();
+
+    public UserDaoJDBCImpl() {
     }
 
     public void createUsersTable() {
-
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            statement.executeUpdate(CREATE_TABLE);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public void dropUsersTable() {
-
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(DROP_TABLE);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
-    public void saveUser(String name, String lastName, byte age) {
 
+    public void saveUser(String name, String lastName, byte age) {
+        PreparedStatement preparedStatement = null;
+        try {
+           preparedStatement = connection.prepareStatement(SAVE);
+           preparedStatement.setString(1,user.getName());
+           preparedStatement.setString(2,user.getLastName());
+           preparedStatement.setByte(3,user.getAge());
+           preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public void removeUserById(long id) {
-
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(REMOVE_USER);
+            preparedStatement.setInt(1, Math.toIntExact(user.getId()));
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+        e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
+
     public List<User> getAllUsers() {
+        List <User> userList = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = connection.prepareStatement(GET_ALL);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                long id = resultSet.getLong("id");
+                String name = resultSet.getString("name");
+                String lastName = resultSet.getString("lastName");
+                byte age = resultSet.getByte("age");
+
+                User user1 = new User(name, lastName, age);
+                userList.add(user1);
+            }
+            System.out.println(userList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         return null;
     }
 
-    public void cleanUsersTable() {
 
+
+    public void cleanUsersTable() {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(CLEAR_TABLE);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
