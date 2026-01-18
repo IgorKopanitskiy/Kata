@@ -21,10 +21,7 @@ public class UserDaoJDBCImpl implements UserDao {
     private static final String CLEAN_TABLE = "DELETE FROM users";
     private static final String REMOVE_USER = "DELETE FROM users WHERE id=?";
 
-// для каждого метода свой коннек + закрытие
-
     Util util = new Util();
-
 
     public UserDaoJDBCImpl() {
     }
@@ -46,7 +43,6 @@ public class UserDaoJDBCImpl implements UserDao {
             e.printStackTrace();
         }
     }
-
 
     public void saveUser(String name, String lastName, byte age) {
         User user = new User(name, lastName,age);
@@ -72,7 +68,6 @@ public class UserDaoJDBCImpl implements UserDao {
         }
     }
 
-
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
         ResultSet resultSet = null;
@@ -95,7 +90,6 @@ public class UserDaoJDBCImpl implements UserDao {
         }
         return null;
     }
-
 
     public void cleanUsersTable() {
         try (Connection connection = util.getConnection();
