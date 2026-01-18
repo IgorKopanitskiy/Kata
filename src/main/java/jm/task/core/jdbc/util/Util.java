@@ -11,22 +11,13 @@ public class Util {
     private static final String DB_USERNAME = "root";
     private static final String DB_PASSWORD = "Forpost3034!";
 
-    public Connection getConnection() {
+    public Connection getConnection() throws ClassNotFoundException, SQLException {
 
         Connection connection = null;
 
-        try {
             Class.forName(DB_DRIVER);
             connection = DriverManager.getConnection(DB_URL,DB_USERNAME,DB_PASSWORD);
-            System.out.println("Connected successfully");
-
-        } catch (ClassNotFoundException | SQLException e){
-            e.printStackTrace();
-            System.out.println("Connection failed");
-        }
 
         return connection;
     }
-
-    // реализуйте настройку соеденения с БД
 }
