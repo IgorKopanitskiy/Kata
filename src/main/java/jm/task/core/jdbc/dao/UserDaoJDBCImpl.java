@@ -87,7 +87,7 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return userList;
     }
 
     public void cleanUsersTable() {
