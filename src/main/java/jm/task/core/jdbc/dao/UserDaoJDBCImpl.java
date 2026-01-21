@@ -18,7 +18,7 @@ public class UserDaoJDBCImpl implements UserDao {
     private static final String SAVE = "INSERT INTO users (name, lastName, age) VALUES (?,?,?)";
     private static final String GET_ALL = "SELECT * FROM users";
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS users";
-    private static final String CLEAN_TABLE = "DELETE FROM users";
+    private static final String CLEAN_TABLE = "TRUNCATE TABLE users";
     private static final String REMOVE_USER = "DELETE FROM users WHERE id=?";
 
     Util util = new Util();
