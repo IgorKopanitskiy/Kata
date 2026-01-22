@@ -10,12 +10,12 @@ import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
 
-    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS users (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(40), lastName VARCHAR(40), age TINYINT UNSIGNED)";
-    private static final String SAVE = "INSERT INTO users (name, lastName, age) VALUES (?,?,?)";
-    private static final String GET_ALL = "SELECT * FROM users";
-    private static final String DROP_TABLE = "DROP TABLE IF EXISTS users";
-    private static final String CLEAN_TABLE = "TRUNCATE TABLE users";
-    private static final String REMOVE_USER = "DELETE FROM users WHERE id=?";
+    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS user (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(40), lastName VARCHAR(40), age TINYINT UNSIGNED)";
+    private static final String SAVE = "INSERT INTO user (name, lastName, age) VALUES (?,?,?)";
+    private static final String GET_ALL = "SELECT * FROM user";
+    private static final String DROP_TABLE = "DROP TABLE IF EXISTS user";
+    private static final String CLEAN_TABLE = "TRUNCATE TABLE user";
+    private static final String REMOVE_USER = "DELETE FROM user WHERE id=?";
 
     public UserDaoJDBCImpl() {
     }
