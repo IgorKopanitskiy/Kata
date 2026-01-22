@@ -11,7 +11,7 @@ public class Util {
     private static final String DB_USERNAME = "root";
     private static final String DB_PASSWORD = "Forpost3034!";
 
-    public Connection getConnection() throws ClassNotFoundException, SQLException {
+    public static Connection getConnection() throws ClassNotFoundException, SQLException {
 
         Connection connection = null;
 
